@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Reader</string>
+    <string name="menu_settings">设置</string>
+    <string name="menu_share">分享</string>
+</resources>
