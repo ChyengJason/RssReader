@@ -20,6 +20,7 @@ import java.util.List;
 
 /**
  * Created by cheng on 16-7-29.
+ * 负责获取和解析xml
  */
 public class RssLoadModel implements RssLoad {
     private final static String TAG = "RssLoadModel";
@@ -63,6 +64,7 @@ public class RssLoadModel implements RssLoad {
         mQueue.add(xmlRequest);
     }
 
+    //解析xml文件
     private void parserXML(XmlPullParser response){
         try {
             rssInfos.clear();
@@ -116,7 +118,7 @@ public class RssLoadModel implements RssLoad {
             e.printStackTrace();
         }
     }
-
+    //从content中获取第一个图片的链接作为img的内容
     private String getImgFromContent(String content){
         String img = null;
         if(content.contains("img") && img == null) {

@@ -37,6 +37,7 @@ public class XMLRequest extends Request<XmlPullParser> {
 
     @Override
     public Map<String, String> getHeaders() throws AuthFailureError {
+        //需要加，否则获取不到数据
         HashMap<String, String> headers = new HashMap<String, String>();
         headers.put("Content-Type", "application/xml; charset=utf-8");
         return headers;

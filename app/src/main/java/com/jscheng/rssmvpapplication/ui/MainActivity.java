@@ -51,7 +51,7 @@ public class MainActivity extends BaseActivty implements RssView, SwipeRefreshLa
         // MVP: presenter
         presenter = new RssPresenter(MainActivity.this);
         presenter.attachView(this); // important, must attachView before use presenter
-        presenter.startLoadFacts();
+        presenter.startLoadTask();
     }
 
     @Override
@@ -107,7 +107,7 @@ public class MainActivity extends BaseActivty implements RssView, SwipeRefreshLa
 
     @Override
     public void onRefresh() {
-        presenter.startLoadFacts();
+        presenter.startLoadTask();
     }
 
     @Override

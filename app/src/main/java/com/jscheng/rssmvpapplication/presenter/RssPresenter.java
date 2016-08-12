@@ -34,9 +34,9 @@ public class RssPresenter implements MvpPresenter<RssView> {
         this.context = context;
     }
 
-    public void startLoadFacts() {
+    public void startLoadTask() {
         if (view == null) {
-            Log.w(TAG, "[startLoadFacts] please attach view first.");
+            Log.w(TAG, "please attach view first.");
             return;
         }
 
