@@ -42,6 +42,7 @@ public class WebPresenter implements MvpPresenter<MyWebView> {
             view.showError("网络异常");
         }
         else {
+            view.hideLoading();
             view.showResult(rssInfo);
         }
         view.showTitle("     ");

@@ -11,12 +11,15 @@ import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.JsResult;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
+import android.widget.Toast;
+
 import com.jscheng.rssmvpapplication.R;
 import com.jscheng.rssmvpapplication.model.RssInfo;
 import com.jscheng.rssmvpapplication.presenter.WebPresenter;
@@ -93,7 +96,14 @@ public class WebActivity extends BaseActivty implements MyWebView {
 
     @Override
     public void showResult(RssInfo rssInfo) {
-        Picasso.with(this).load(rssInfo.getImg()).fit().centerCrop().into(backdrop);
+        if(rssInfo.getImg()==null || rssInfo.getImg().equals("")) {
+//            backdrop.setVisibility(View.GONE);
+            ViewGroup.LayoutParams para = backdrop.getLayoutParams();
+            para.height = (int)getResources().getDimension(R.dimen.actionBarSize);
+            backdrop.setLayoutParams(para);
+        }
+        else
+            Picasso.with(this).load(rssInfo.getImg()).fit().centerCrop().into(backdrop);
         myWebView.loadUrl(rssInfo.getLink());
     }
 

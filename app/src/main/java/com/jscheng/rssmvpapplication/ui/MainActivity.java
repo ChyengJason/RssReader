@@ -3,7 +3,6 @@ package com.jscheng.rssmvpapplication.ui;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
@@ -18,20 +17,17 @@ import android.widget.Toast;
 import com.jscheng.rssmvpapplication.R;
 import com.jscheng.rssmvpapplication.adapter.RssAdapter;
 import com.jscheng.rssmvpapplication.model.RssInfo;
-import com.jscheng.rssmvpapplication.presenter.FactPresenter;
+import com.jscheng.rssmvpapplication.presenter.RssPresenter;
 import com.jscheng.rssmvpapplication.utils.NetworkUtils;
 import com.jscheng.rssmvpapplication.view.RssView;
 import com.pnikosis.materialishprogress.ProgressWheel;
-import com.umeng.analytics.MobclickAgent;
 
 import java.util.List;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
-import cn.sharesdk.framework.ShareSDK;
-import cn.sharesdk.onekeyshare.OnekeyShare;
 
 public class MainActivity extends BaseActivty implements RssView, SwipeRefreshLayout.OnRefreshListener  {
-    private FactPresenter presenter;
+    private RssPresenter presenter;
     private ProgressWheel progressWheel;
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView listView;
@@ -53,7 +49,7 @@ public class MainActivity extends BaseActivty implements RssView, SwipeRefreshLa
         listView.setLayoutManager(new LinearLayoutManager(this));
         listView.setAdapter(rssAdapter);
         // MVP: presenter
-        presenter = new FactPresenter(MainActivity.this);
+        presenter = new RssPresenter(MainActivity.this);
         presenter.attachView(this); // important, must attachView before use presenter
         presenter.startLoadFacts();
     }

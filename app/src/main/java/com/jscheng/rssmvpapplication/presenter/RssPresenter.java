@@ -23,14 +23,14 @@ import java.util.List;
 /**
  * Created by cheng on 16-7-24.
  */
-public class FactPresenter implements MvpPresenter<RssView> {
-    private final static String TAG = "FactPresenter";
+public class RssPresenter implements MvpPresenter<RssView> {
+    private final static String TAG = "RssPresenter";
     private final static String RSS_URL = "http://media.stu.edu.cn/feed";
 
     private RssView view;
     private Context context;
 
-    public FactPresenter(Context context) {
+    public RssPresenter(Context context) {
         this.context = context;
     }
 

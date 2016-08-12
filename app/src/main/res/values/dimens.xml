@@ -9,4 +9,6 @@
     <dimen name="item_image_height">230dp</dimen>
     <dimen name="item_title_word">16dp</dimen>
     <dimen name="item_desc_word">14dp</dimen>
+    <dimen name="actionBarSize">80dp</dimen>
+    <dimen name="actionBarSize_sencond">55dp</dimen>
 </resources>

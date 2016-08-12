@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
-    android:layout_height="?attr/actionBarSize"
+    android:layout_height="@dimen/actionBarSize_sencond"
     android:background="?attr/colorPrimary">
     <TextView
         android:id="@+id/toolbar_title"

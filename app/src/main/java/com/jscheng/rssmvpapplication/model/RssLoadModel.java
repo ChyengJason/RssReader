@@ -22,7 +22,7 @@ import java.util.List;
  * Created by cheng on 16-7-29.
  */
 public class RssLoadModel implements RssLoad {
-    private final static String TAG = "FactPresenter";
+    private final static String TAG = "RssLoadModel";
     private final static String ITEM = "item";
     private final static String TITLE = "title";
     private final static String LINK = "link";
