@@ -1,4 +1,4 @@
-package com.jscheng.rssmvpapplication.ui;
+package com.jscheng.rssmvpapplication.ui.activity;
 
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
@@ -15,7 +15,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jscheng.rssmvpapplication.R;
-import com.jscheng.rssmvpapplication.adapter.RssAdapter;
+import com.jscheng.rssmvpapplication.RssApplication;
+import com.jscheng.rssmvpapplication.ui.activity.module.MainActivityModule;
+import com.jscheng.rssmvpapplication.ui.adapter.RssAdapter;
 import com.jscheng.rssmvpapplication.model.RssInfo;
 import com.jscheng.rssmvpapplication.presenter.RssPresenter;
 import com.jscheng.rssmvpapplication.utils.NetworkUtils;
@@ -24,34 +26,51 @@ import com.pnikosis.materialishprogress.ProgressWheel;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class MainActivity extends BaseActivty implements RssView, SwipeRefreshLayout.OnRefreshListener  {
-    private RssPresenter presenter;
-    private ProgressWheel progressWheel;
-    private SwipeRefreshLayout swipeRefreshLayout;
-    private RecyclerView listView;
+
+    @Inject
+    RssPresenter presenter;
+    @BindView(R.id.progress_wheel)
+    ProgressWheel progressWheel;
+    @BindView(R.id.swipeRefreshLayout)
+    SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.recyclerView)
+    RecyclerView listView;
+    @BindView(R.id.toolbar)
+    RelativeLayout toolbar;
+    @BindView(R.id.toolbar_title)
+    TextView toolbarTitle;
     private RssAdapter rssAdapter;
     private long exitTime;
-    private RelativeLayout toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        progressWheel = (ProgressWheel) findViewById(R.id.progress_wheel);
+        ButterKnife.bind(this);
         setToolbar();
-        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimaryDark,R.color.colorPrimary);
         listView = (RecyclerView)findViewById(R.id.recyclerView);
         rssAdapter = new RssAdapter(MainActivity.this);
         listView.setLayoutManager(new LinearLayoutManager(this));
         listView.setAdapter(rssAdapter);
+
         // MVP: presenter
-        presenter = new RssPresenter(MainActivity.this);
         presenter.attachView(this); // important, must attachView before use presenter
         presenter.startLoadTask();
+    }
+
+    @Override
+    public void setupActivityComponent() {
+        RssApplication.getInstance().getAppComponent()
+                .plus(new MainActivityModule(MainActivity.this)).inject(this);
     }
 
     @Override
@@ -88,7 +107,7 @@ public class MainActivity extends BaseActivty implements RssView, SwipeRefreshLa
 
     @Override
     public void showTitle(String title) {
-        ((TextView)findViewById(R.id.toolbar_title)).setText(title);
+        toolbarTitle.setText(title);
     }
 
     @Override
@@ -123,7 +142,6 @@ public class MainActivity extends BaseActivty implements RssView, SwipeRefreshLa
     }
 
     private void setToolbar() {
-        toolbar = (RelativeLayout) findViewById(R.id.toolbar);
         final ImageButton right_btn=  (ImageButton)findViewById(R.id.right_btn);
         right_btn.setOnClickListener(new View.OnClickListener() {
             @Override

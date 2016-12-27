@@ -1,4 +1,4 @@
-package com.jscheng.rssmvpapplication.ui;
+package com.jscheng.rssmvpapplication.ui.activity;
 
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
@@ -6,7 +6,6 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.MenuItem;
@@ -18,41 +17,50 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.jscheng.rssmvpapplication.R;
+import com.jscheng.rssmvpapplication.RssApplication;
 import com.jscheng.rssmvpapplication.model.RssInfo;
 import com.jscheng.rssmvpapplication.presenter.WebPresenter;
+import com.jscheng.rssmvpapplication.ui.activity.module.WebActivityModule;
 import com.jscheng.rssmvpapplication.utils.NetworkUtils;
 import com.jscheng.rssmvpapplication.view.MyWebView;
 import com.pnikosis.materialishprogress.ProgressWheel;
 import com.squareup.picasso.Picasso;
 
+import javax.inject.Inject;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 /**
  * Created by cheng on 16-7-24.
  */
 public class WebActivity extends BaseActivty implements MyWebView {
-    private ProgressWheel progressWheel;
-    private WebView myWebView;
-    private ImageView backdrop;
-    private WebPresenter webPresenter;
-    private Toolbar toolbar;
-    private CollapsingToolbarLayout collapsingToolbar;
+
+    @Inject
+    WebPresenter webPresenter;
+    @BindView(R.id.progress_wheel)
+    ProgressWheel progressWheel;
+    @BindView(R.id.webview_act_WebView)
+    WebView myWebView;
+    @BindView(R.id.backdrop)
+    ImageView backdrop;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.collapsing_toolbar)
+    CollapsingToolbarLayout collapsingToolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.webview_act);
+        ButterKnife.bind(this);
         // load & parse json progress view
-        progressWheel = (ProgressWheel) findViewById(R.id.progress_wheel);
-        toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //设置工具栏标题
-        collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-        backdrop = (ImageView)findViewById(R.id.backdrop);
-        myWebView = (WebView)findViewById(R.id.webview_act_WebView);
         myWebView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
         WebSettings mSetting = myWebView.getSettings();
         mSetting.setJavaScriptEnabled(true); //设置js权限，比如js弹出窗
@@ -67,9 +75,14 @@ public class WebActivity extends BaseActivty implements MyWebView {
 //		mSetting.setCacheMode(WebSettings.LOAD_DEFAULT);//开启缓存
         myWebView.setWebChromeClient(getWebChromeClient());
         myWebView.setWebViewClient(getWebViewClient());
-        webPresenter = new WebPresenter();
+
         webPresenter.attachView(this);
         webPresenter.startLoading(getIntent());
+    }
+
+    @Override
+    public void setupActivityComponent() {
+        RssApplication.getInstance().getAppComponent().plus(new WebActivityModule()).inject(this);
     }
 
     @Override

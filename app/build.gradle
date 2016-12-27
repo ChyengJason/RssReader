@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
-
+apply plugin: 'com.neenbedankt.android-apt'
 android {
-    compileSdkVersion 'Google Inc.:Google APIs:23'
+    compileSdkVersion 23
     buildToolsVersion "23.0.2"
 
     defaultConfig {
@@ -35,6 +35,10 @@ dependencies {
     compile 'com.android.volley:volley:1.0.0'
     compile 'cn.pedant.sweetalert:library:1.2'
     compile 'com.umeng.analytics:analytics:latest.integration'
+    compile 'com.google.dagger:dagger:2.5'
+    compile 'com.google.dagger:dagger-compiler:2.5'
+    compile 'com.jakewharton:butterknife:8.4.0'
+    apt 'com.jakewharton:butterknife-compiler:8.4.0'
 
     compile files('libs/MobCommons-2016.0707.1708.jar')
     compile files('libs/MobTools-2016.0707.1708.jar')

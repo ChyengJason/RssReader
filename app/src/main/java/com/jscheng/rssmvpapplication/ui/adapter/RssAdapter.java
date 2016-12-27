@@ -1,4 +1,4 @@
-package com.jscheng.rssmvpapplication.adapter;
+package com.jscheng.rssmvpapplication.ui.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.jscheng.rssmvpapplication.R;
 import com.jscheng.rssmvpapplication.model.RssInfo;
-import com.jscheng.rssmvpapplication.ui.WebActivity;
+import com.jscheng.rssmvpapplication.ui.activity.WebActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

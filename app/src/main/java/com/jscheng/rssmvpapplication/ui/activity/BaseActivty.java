@@ -1,4 +1,4 @@
-package com.jscheng.rssmvpapplication.ui;
+package com.jscheng.rssmvpapplication.ui.activity;
 
 import android.Manifest;
 import android.content.Context;
@@ -11,6 +11,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.jscheng.rssmvpapplication.R;
+import com.jscheng.rssmvpapplication.ui.activity.component.AppComponent;
 import com.jscheng.rssmvpapplication.utils.Constants;
 import com.umeng.analytics.MobclickAgent;
 
@@ -26,11 +27,12 @@ import cn.sharesdk.onekeyshare.OnekeyShare;
 /**
  * Created by cheng on 16-8-7.
  */
-public class BaseActivty extends AppCompatActivity {
+public abstract class BaseActivty extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setupActivityComponent();
         MobclickAgent.startWithConfigure(new MobclickAgent.UMAnalyticsConfig(this, Constants.YOU_MENG_APP_KEY,Constants.CHANNEL_ID));
         //MobclickAgent.setDebugMode(true);
         //getDeviceInfo(this);
@@ -182,4 +184,6 @@ public class BaseActivty extends AppCompatActivity {
         }
         return null;
     }
+
+    public abstract void setupActivityComponent();
 }

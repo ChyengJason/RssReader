@@ -1,4 +1,4 @@
-package com.jscheng.rssmvpapplication.ui;
+package com.jscheng.rssmvpapplication.ui.activity;
 
 import android.content.Intent;
 import android.os.Build;
@@ -21,21 +21,28 @@ import com.jscheng.rssmvpapplication.utils.SharedPreferencesUtils;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * Created by dell on 2016/8/5.
  */
 public class SplashActivity extends AppCompatActivity {
+
+    @BindView(R.id.splash_act_point_linear)
+    LinearLayout point_linear;
+
+    @BindView(R.id.splash_act_viewpager)
+    ViewPager viewPager;
+
     private ArrayList<ImageView> pointViews ;
-    private ViewPager viewPager;
-    private LinearLayout point_linear;
     private Integer[] imageArr = {R.mipmap.b1,R.mipmap.b2,R.mipmap.b1};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         checkIsFirstStart();
         setContentView(R.layout.splash_act);
-        viewPager = (ViewPager)findViewById(R.id.splash_act_viewpager);
-        point_linear = (LinearLayout) findViewById(R.id.splash_act_point_linear);
+        ButterKnife.bind(this);
         initPoint();
         //透明状态栏
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
