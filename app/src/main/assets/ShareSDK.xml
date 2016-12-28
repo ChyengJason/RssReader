@@ -24,8 +24,6 @@
     	
     	各个平台注册应用信息的地址如下：
 			新浪微博        http://open.weibo.com
-			腾讯微博        http://dev.t.qq.com
-			QQ空间          http://connect.qq.com/intro/login/
 			微信好友        http://open.weixin.qq.com
 			Facebook       https://developers.facebook.com
 			Twitter        https://dev.twitter.com
@@ -48,7 +46,7 @@
 			VKontakte      http://vk.com/dev
 			易信好友        http://open.yixin.im/
 			明道	           http://open.mingdao.com/
-			Line           http://media.line.me/zh-hant/
+			Line           http://media.line.me/zh-hant/  https://developers.line.me
 			Pocket         http://getpocket.com/developer/apps/new
 			KakaoTalk      https://developers.kakao.com/
 			KakaoStory     https://developers.kakao.com/
@@ -56,14 +54,14 @@
     -->
     
     <ShareSDK 
-        AppKey = "15d22c7905988"/> <!-- 修改成你在sharesdk后台注册的应用的appkey"-->
+        AppKey = "androidv1101"/> <!-- 修改成你在sharesdk后台注册的应用的appkey"-->
     
     <!-- ShareByAppClient标识是否使用微博客户端分享，默认是false -->
     <SinaWeibo
         Id="1"
         SortId="1"
-        AppKey="418000893"
-        AppSecret="c3dfec2d6de37f3dfa1c25de164f61bc"
+        AppKey="568898243"
+        AppSecret="38a4f8204cc784f81f9f0daaf31e02e3"
         RedirectUrl="http://www.sharesdk.cn"
         ShareByAppClient="true"
         Enable="true" />
@@ -216,6 +214,8 @@
      <GooglePlus
     	Id="21"
         SortId="21"
+        ClientID="682795613743-cfo3a8r4va0ujja7qofr54hobt2kv3cq.apps.googleusercontent.com"
+        RedirectUrl="http://localhost"
         ShareByAppClient = "false"
         Enable="true" />
      
@@ -308,6 +308,8 @@
 	<Line
 	    Id="32"
         SortId="32"
+        ChannelID = "1477692153"
+        ChannelSecret ="f30c036370f2e04ade71c52eef73a9af"
         Enable="true" />
 	
 	<KakaoTalk
@@ -352,8 +354,14 @@
         Enable="true" />
     
      <Alipay
-        Id="52"
-        SortId="52"  
+        Id="50"
+        SortId="50"  
+        AppId="2015072400185895"
+        Enable="true"/>
+     
+     <AlipayMoments
+        Id="51"
+        SortId="51"  
         AppId="2015072400185895"
         Enable="true"/>
 

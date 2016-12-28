@@ -20,7 +20,7 @@ import cn.sharesdk.onekeyshare.themes.classic.FriendAdapter.Following;
 
 import com.mob.tools.gui.AsyncImageView;
 import com.mob.tools.gui.BitmapProcessor;
-import com.mob.tools.utils.R;
+import com.mob.tools.utils.ResHelper;
 
 /** 好友列表的item */
 public class FriendListItem extends LinearLayout {
@@ -45,14 +45,14 @@ public class FriendListItem extends LinearLayout {
 		setBackgroundColor(0xffffffff);
 
 		ivCheck = new ImageView(context);
-		LayoutParams lp = new LayoutParams(
+		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
 				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		lp.gravity = Gravity.CENTER_VERTICAL;
 		addView(ivCheck, lp);
 
 		aivIcon = new AsyncImageView(context);
 		int avatarWidth = (int) (ratio * DESIGN_AVATAR_WIDTH);
-		lp = new LayoutParams(avatarWidth, avatarWidth);
+		lp = new LinearLayout.LayoutParams(avatarWidth, avatarWidth);
 		lp.gravity = Gravity.CENTER_VERTICAL;
 		int avatarMargin = (int) (ratio * DESIGN_AVATAR_PADDING);
 		lp.setMargins(avatarMargin, 0, avatarMargin, 0);
@@ -62,16 +62,16 @@ public class FriendListItem extends LinearLayout {
 		tvName.setTextColor(0xff000000);
 		tvName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
 		tvName.setSingleLine();
-		lp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		lp = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		lp.gravity = Gravity.CENTER_VERTICAL;
 		lp.weight = 1;
 		addView(tvName, lp);
 
-		int resId = R.getBitmapRes(context, "ssdk_oks_classic_check_checked");
+		int resId = ResHelper.getBitmapRes(context, "ssdk_oks_classic_check_checked");
 		if (resId > 0) {
 			bmChd = BitmapFactory.decodeResource(context.getResources(), resId);
 		}
-		resId = R.getBitmapRes(getContext(), "ssdk_oks_classic_check_default");
+		resId = ResHelper.getBitmapRes(getContext(), "ssdk_oks_classic_check_default");
 		if (resId > 0) {
 			bmUnch = BitmapFactory.decodeResource(context.getResources(), resId);
 		}
