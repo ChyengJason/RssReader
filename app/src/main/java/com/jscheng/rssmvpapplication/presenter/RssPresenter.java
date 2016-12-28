@@ -1,31 +1,28 @@
 package com.jscheng.rssmvpapplication.presenter;
 
 import android.content.Context;
-import android.util.Log;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.Volley;
+import com.jscheng.rssmvpapplication.api.RssService;
 import com.jscheng.rssmvpapplication.model.RssInfo;
-import com.jscheng.rssmvpapplication.model.RssLoadListener;
-import com.jscheng.rssmvpapplication.model.RssLoadModel;
-import com.jscheng.rssmvpapplication.utils.XMLRequest;
+import com.jscheng.rssmvpapplication.model.RssParser;
+import com.jscheng.rssmvpapplication.utils.NetworkUtils;
 import com.jscheng.rssmvpapplication.view.RssView;
+import com.orhanobut.logger.Logger;
 
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
+
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by cheng on 16-7-24.
  */
 public class RssPresenter implements MvpPresenter<RssView> {
     private final static String TAG = "RssPresenter";
-    private final static String RSS_URL = "http://media.stu.edu.cn/feed";
 
     private RssView view;
     private Context context;
@@ -36,36 +33,105 @@ public class RssPresenter implements MvpPresenter<RssView> {
 
     public void startLoadTask() {
         if (view == null) {
-            Log.w(TAG, "please attach view first.");
+            Logger.w(TAG, "please attach view first.");
             return;
         }
 
-        new RssLoadModel(context,RSS_URL).excute(new RssLoadListener() {
+//        Observable<retrofit2.Response<ResponseBody>> observer = RssService.getRssApi().getRssHtml();
+//        observer.doOnNext(new Action1<retrofit2.Response<ResponseBody>>() {
+//                    @Override
+//                    public void call(retrofit2.Response<ResponseBody> s) {
+//
+//                    }
+//                })
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Subscriber<retrofit2.Response<ResponseBody>>() {
+//                    @Override
+//                    public void onCompleted() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onNext(retrofit2.Response<ResponseBody> s) {
+//                        try {
+//                            Logger.e(s.body().string());
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                });
 
-            @Override
-            public void onBeginLoad() {
-                view.showLoading();
-            }
+//        Call<ResponseBody> call = RssService.getRssApi().getRssHtml();
+//        call.enqueue(new Callback<ResponseBody>() {
+//            @Override
+//            public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
+//
+//                if(response.isSuccessful())
+//                    try {
+//                        ResponseBody body = response.body();
+//                        String result = body.string();
+//                        Logger.e(result);
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ResponseBody> call, Throwable t) {
+//
+//            }
+//        });
 
-            @Override
-            public void onLoadSuccess(List<RssInfo> rssInfoList) {
-                Log.d(TAG, "onLoadSuccess: ");
-                view.hideLoading();
-                view.showResult(rssInfoList);
-            }
+        Observable<String> observer = RssService.getRssApi().getRssHtml();
+        observer.doOnNext(new Action1<String>() {
+                    @Override
+                    public void call(String s) {
 
-            @Override
-            public void onLoadFailed() {
-                view.hideLoading();
-                view.showError("更新失败");
-            }
+                    }
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.newThread())
+                .map(new Func1<String, List<RssInfo>>() {
+                    @Override
+                    public List<RssInfo> call(String s) {
+                        return RssParser.parserXML(s);
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<List<RssInfo>>() {
+                    @Override
+                    public void onStart() {
+                        super.onStart();
+                        view.showLoading();
+                    }
 
-            @Override
-            public void onNetWorkFailed() {
-                view.showError("网络不可用");
-                view.hideLoading();
-            }
-        });
+                    @Override
+                    public void onCompleted() {
+                        view.hideLoading();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        view.hideLoading();
+                        if (!NetworkUtils.isNetworkAvailable(context))
+                            view.showError("网络不可用");
+                        else
+                            view.showError("更新失败");
+                    }
+
+                    @Override
+                    public void onNext(List<RssInfo> rssInfos) {
+                        view.showResult(rssInfos);
+                    }
+                });
+
     }
 
     @Override

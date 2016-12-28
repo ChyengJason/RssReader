@@ -9,5 +9,6 @@ public class Constants {
     public final static String CHANNEL_ID="fir.im";
     /* feed */
     public final static String RSS_URL = "http://media.stu.edu.cn/feed";
+    public final static String RSS_BASE_URL = "http://media.stu.edu.cn/";
     public final static String FRIST_STRART ="first";
 }
