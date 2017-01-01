@@ -43,6 +43,6 @@ dependencies {
     compile files('libs/ShareSDK-SinaWeibo-2.7.4.jar')
     compile files('libs/ShareSDK-TencentWeibo-2.7.4.jar')
     compile files('libs/ShareSDK-Wechat-Core-2.7.4.jar')
-    compile files('ShareSDK-Wechat-Favorite-2.7.4.jar')
-    compile files('ShareSDK-Wechat-Moments-2.7.4.jar')
+    compile files('libs/ShareSDK-Wechat-Favorite-2.7.4.jar')
+    compile files('libs/ShareSDK-Wechat-Moments-2.7.4.jar')
 }
